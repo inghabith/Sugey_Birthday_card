@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para ti</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:            #f5ede0;
+      --bg-grad1:      rgba(255,180,180,0.15);
+      --bg-grad2:      rgba(255,210,120,0.13);
+      --letter-bg:     #fdf8f0;
+      --letter-shadow: rgba(100,60,20,0.22);
+      --letter-text:   #4a3520;
+      --letter-muted:  #a07840;
+      --letter-sign:   #7a5030;
+      --paper-line:    rgba(180,160,120,0.18);
+      --divider:       rgba(160,120,64,0.2);
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, var(--bg-grad1) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, var(--bg-grad2) 0%, transparent 50%);
+      font-family: 'Lora', serif;
+      color: var(--letter-text);
+      padding: 48px 20px 80px;
+    }
+
+    /* ===== HEADER ===== */
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.2s forwards;
+    }
+    .page-header .ornament {
+      font-size: 1.1rem;
+      color: var(--letter-muted);
+      letter-spacing: 14px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--letter-sign);
+      letter-spacing: 0.02em;
+    }
+
+    /* ===== MAIN LAYOUT ===== */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    /* ===== LETTER SECTION — 70% ===== */
+    .letter-section {
+      flex: 0 0 68%;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.45s forwards;
+    }
+
+    .letter-paper {
+      background: var(--letter-bg);
+      border-radius: 4px;
+      box-shadow:
+        0 24px 64px var(--letter-shadow),
+        0 6px 20px rgba(100,60,20,0.1),
+        inset 0 0 0 1px rgba(180,140,90,0.2);
+      padding: 52px 56px 48px;
+      position: relative;
+      overflow: hidden;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E"),
+        repeating-linear-gradient(
+          92deg,
+          transparent,
+          transparent 28px,
+          rgba(160,130,80,0.022) 28px,
+          rgba(160,130,80,0.022) 29px
+        );
+    }
+
+    /* Líneas de papel */
+    .letter-paper::before {
+      content: '';
+      position: absolute;
+      top: 110px; left: 28px; right: 28px; bottom: 28px;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent, transparent 31px,
+        var(--paper-line) 31px, var(--paper-line) 32px
+      );
+      pointer-events: none;
+    }
+
+    /* Esquina doblada */
+    .letter-paper::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      border-style: solid;
+      border-width: 0 38px 38px 0;
+      border-color: transparent #e8d5b4 transparent transparent;
+    }
+
+    .letter-date {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.8rem;
+      color: var(--letter-muted);
+      text-align: right;
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .letter-salute {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--letter-text);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .letter-body {
+      font-family: 'Lora', serif;
+      font-size: 0.9rem;
+      color: var(--letter-text);
+      line-height: 2.05;
+      position: relative;
+      z-index: 1;
+    }
+
+    .letter-body p {
+      margin-bottom: 18px;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .letter-sign {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--letter-sign);
+      text-align: right;
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
+      line-height: 1.8;
+    }
+
+    /* ===== PHOTOS SECTION — 30% ===== */
+    .photos-section {
+      flex: 0 0 calc(32% - 32px);
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.7s forwards;
+    }
+
+    .photos-header {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      color: var(--letter-muted);
+      text-align: center;
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .photos-header::before,
+    .photos-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--divider);
+    }
+
+    .photos-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Cada polaroid de foto */
+    .photo-card {
+      background: #fff;
+      padding: 8px 8px 28px;
+      box-shadow:
+        0 8px 28px rgba(80,40,10,0.2),
+        0 2px 6px rgba(80,40,10,0.1);
+      border-radius: 2px;
+      transform: rotate(var(--rot, -1.5deg));
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+    .photo-card:nth-child(even)  { --rot:  2deg; }
+    .photo-card:nth-child(odd)   { --rot: -1.5deg; }
+    .photo-card:nth-child(3n)    { --rot:  0.8deg; }
+
+    .photo-card:hover {
+      transform: rotate(0deg) scale(1.03);
+      box-shadow: 0 16px 40px rgba(80,40,10,0.28);
+      z-index: 2;
+      position: relative;
+    }
+
+    /* Aquí van las imágenes — reemplaza src con tus rutas */
+    .photo-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      border-radius: 1px;
+      background: #f0e8d8;
+    }
+
+    /* Placeholder visual cuando no hay imagen */
+    .photo-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(160,120,64,0.06),
+          rgba(160,120,64,0.06) 10px,
+          transparent 10px,
+          transparent 20px
+        ),
+        #f5ede0;
+      border-radius: 1px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--letter-muted);
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+    .photo-placeholder span { font-size: 1.6rem; opacity: 0.5; }
+
+    .photo-caption {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.78rem;
+      color: var(--letter-muted);
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    /* ===== ANIMACIONES ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 820px) {
+      main {
+        flex-direction: column;
+      }
+      .letter-section,
+      .photos-section {
+        flex: 0 0 100%;
+        width: 100%;
+      }
+      .letter-paper {
+        padding: 36px 28px 36px;
+      }
+      .photos-grid {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .photo-card {
+        flex: 0 0 calc(50% - 10px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .letter-paper { padding: 28px 18px 28px; }
+      .photo-card   { flex: 0 0 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🎵 MÚSICA DE FONDO — mismo archivo que en index.html -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="cancion_despedida.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- PANTALLA DE BIENVENIDA -->
+  <div class="welcome-overlay" id="welcomeOverlay" onclick="dismissWelcome()">
+    <div class="welcome-content">
+      <div class="welcome-petals">
+        <span>✿</span><span>✦</span><span>✿</span>
+      </div>
+      <p class="welcome-message">Léelo con<br><em>mucho amor...</em></p>
+      <div class="welcome-hint">toca para continuar</div>
+      <div class="welcome-arrow-down"></div>
+    </div>
+  </div>
+
+  <style>
+    /* ===== WELCOME OVERLAY (copiado de styles.css) ===== */
+    .welcome-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      background:
+        radial-gradient(ellipse at 35% 40%, rgba(160,100,50,0.4) 0%, transparent 55%),
+        radial-gradient(ellipse at 70% 70%, rgba(140,80,30,0.3) 0%, transparent 50%),
+        #6b3d1e;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    .welcome-overlay::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(120,60,20,0.12) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .welcome-overlay::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='none'/%3E%3Ccircle cx='1' cy='1' r='0.5' fill='rgba(255,255,255,0.06)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .welcome-overlay.hidden {
+      opacity: 0; visibility: hidden; pointer-events: none;
+    }
+    .welcome-content {
+      text-align: center; position: relative; z-index: 1;
+      animation: welcomePulse 3s ease-in-out infinite;
+    }
+    @keyframes welcomePulse {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+    .welcome-petals {
+      font-size: 1.8rem; color: rgba(255,245,230,0.7);
+      letter-spacing: 18px; margin-bottom: 28px;
+      display: flex; justify-content: center; gap: 18px;
+    }
+    .welcome-petals span:nth-child(2) {
+      color: rgba(255,220,160,0.9); font-size: 1.2rem; align-self: center;
+    }
+    .welcome-message {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      font-weight: 400; color: #fdf3e3;
+      line-height: 1.35; text-shadow: 0 3px 20px rgba(100,50,10,0.3);
+      letter-spacing: 0.01em; margin-bottom: 36px;
+    }
+    .welcome-message em {
+      font-style: italic; color: #fff8e8;
+      display: block; font-size: 1.15em;
+    }
+    .welcome-hint {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 0.95rem; color: rgba(255,245,220,0.65);
+      letter-spacing: 0.08em; margin-bottom: 16px; text-transform: lowercase;
+    }
+    .welcome-arrow-down {
+      margin: 0 auto; width: 20px; height: 20px;
+      border-right: 2px solid rgba(255,245,220,0.5);
+      border-bottom: 2px solid rgba(255,245,220,0.5);
+      transform: rotate(45deg);
+      animation: arrowBounce 1.6s ease-in-out infinite;
+    }
+    @keyframes arrowBounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(6px); }
+    }
+  </style>
+
+  <script>
+    function dismissWelcome() {
+      var overlay = document.getElementById('welcomeOverlay');
+      overlay.classList.add('hidden');
+      // Iniciar música al hacer clic en la pantalla de bienvenida
+      var music = document.getElementById('bgMusic');
+      music.volume = 0.5;
+      music.play().catch(function () {});
+    }
+  </script>
+
+  <header class="page-header">
+    <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+    <h1>Una última cosa...</h1>
+  </header>
+
+  <main>
+
+    <!-- ===== SECCIÓN CARTA — 70% ===== -->
+    <section class="letter-section">
+      <div class="letter-paper">
+
+        <div class="letter-salute">Hola</div>
+
+        <div class="letter-body">
+          <p>¿Cómo has estado? Ha sido poco tiempo desde la última vez que hablamos, en aquella ocasión era tu día especial, aquel día solo deseaba que la estuvieras pasando muy bien y a juzgar por las fotos con tus amigas, familiares, de los regalos... fue un muy buen día para ti, me alegro mucho, he hablado un poco con tu mamá, sé que aún no consigues dar con un trabajo y que están aún un poco apretadas, pero confío en que muy pronto y ya lo verás, tendrás ese trabajo por el que has estado rezando y estudiando tanto.</p>
+
+          <p>Sé que es difícil, frustrante, desesperante, porque el tiempo no espera por nadie y porque hay muchas cosas que has querido hacer y no has podido por el dinero y te entiendo, tú sabes que también estoy pasando por eso. Rubén recién compró su casa en U.S.A, increíble, me alegro mucho por él y a la vez me da envidia de la buena.</p>
+
+          <p>Pero no pierdas la esperanza, sigue trabajando en ti, piensa inteligentemente, no te enfoques en lo que los demás están consiguiendo, concéntrate en ti, en tu progreso, en las cosas que te gustan...</p>
+
+          <p>Y si deseas saber... en cuanto a mí, me ha ido bastante bien, de verdad, no todo es perfecto obviamente, pero he tenido oportunidades muy buenas, he conocido gente muy chévere, otras no tanto, gente de la que puedo aprender bastante y eso hago y que incluso puede que me echen una mano en el futuro. ¿Recuerdas el programa de tutores? Bueno, de los 9 que nos inscribimos, ¡quedé en los 3 finalistas! Al parecer los 3 tenemos muy buenas habilidades técnicas y las psicólogas determinaron con unas entrevistas que los 3 teníamos muy buenas habilidades socio-emocionales, por lo que empatamos los 3, lastimosamente el desempate fue la nota de inglés mientras que mi compañero y yo teníamos un nivel B2, la tercera contaba con un nivel C1, y se le notaba… perdí, pero le demostré a todos y a mí mismo mis capacidades, a pesar de ser un neófito en este nuevo mundo, además recordé lo importante de tener un muy buen nivel de inglés en este campo, pero bueno, quedé de Sub-tutor. Lo único que me arde es que me ganó una niña de 17 años jaja y siéndote franco, yo manejaría mejor el clan jeje. No me quedo solo en eso, también recibí una oferta de empleo para trabajar en servicio técnico por parte de una empresa aliada de Riwi, era en inglés todo, para bien o para mal, no quedé, necesitaban 4 personas y a mí me llamaron de último para hacer los 8 exámenes (un montón) y éramos como 10 haciendo la prueba, ni modo, el que pega primero gana…. así que bueno a seguir practicando, me motiva saber que mi TL de inglés me tiene en cuenta para esas cosas.</p>
+
+          <p>También quiero contarte que tengo claro quiénes son las personas con potencial, ya creé un grupo para futuros proyectos que Riwi solicitará para no estar corriendo con gente irresponsable, que ya me pasó y hasta discutí con un compañero (al parecer es autista). En inglés me ha tocado llevar de la mano a mi grupo, ahí ni modo no podía escoger con quiénes quería, trabajamos los grupos por mesa, pero esa dificultad extra porque es cule grupo peye, pero se dejan guiar, me obliga a aprender más, a tener más claras las cosas técnicas y a ser mejor líder, y en cuanto a desarrollo web, bueno ya has visto las cosas que he logrado hacer y sigo aprendiendo...</p>
+
+          <p>Aún no sé a qué me quiera enfocar, me llama la atención la ciber-seguridad, hackeo ético, protección de servidores, pero aún hay módulos por delante así que puedo cambiar de opinión, eso sí, hay muy buenas ofertas laborales y mi TL se especializa en eso, tiene mucha plata el bastardo y mucha experiencia, pero es re sencillo y muy chill. Estoy bastante enfocado ¿me entiendes?</p>
+
+          <p>Comencé a hacer ejercicio de nuevo, calistenia en el parque en lo que ahorro un poco para el gym y la suplementación, sigo "trabajando", y dedico bastante tiempo a seguir estudiando por mi cuenta, también sigo jugando softball, sabes que me gusta mucho y a mi mamá le ha ido bastante bien con su colegio, de a poco está mejorando su entorno, me alegro mucho por ella, Zoe está bien, ya falta nada para que se gradue, mi papá sigue igual y Alaska está super bien.</p>
+
+          <p>Bueno, te vendrá a la mente ¿por qué me escribe tanto? Estoy en un parque escribiendo esto en una libreta, está calmado y he descubierto que escribir me ayuda a relajarme y expresarme, es algo espiritual, no sé, conecto conmigo. De un tiempo para acá he estado pensando realmente mucho, he hecho introspección y mirado atrás, específicamente a cuando rompimos y un poco más atrás, entendiendo el porqué de todo. Estando más calmado y con espacio, algunas cosas cobran más sentido. Quiero contarte un poco de eso porque para serte sincero son cosas que no salen de mi cabeza y necesito que escuches, comenzando porque ha sido duro no dejar de pensarte y extrañarte, es inevitable, aunque hay breves momentos de distracción estás 90% del tiempo en mis pensamientos, con cada logro que he tenido, lo primero que hacía era abrir el chat para escribirte y contarte para finalmente darme cuenta que nuestra última conversación así terminó hace ya casi 2 meses.</p>
+
+          <p>Me pega fuerte aún, reconozco que no ha sido posible para mí dejarte de lado porque incluso aún me preocupo por tu bienestar. También he de confesarte que me hace bastante daño cosas tan pequeñas de las que estoy tan al pendiente como el ver que no reaccionas a alguna publicación, simplemente la ignoras, o como hace poco, reaccionabas con corazones rojos en vez de blancos por WhatsApp el día de tu cumple, una bobada pensarás tú... y bueno no lo es para mí, para mí significa aún mucho, y a la vez es como si a ti no te importara eso, y bueno, me empiezas a superar y olvidar, eso es difícil de asimilar, porque parece que fuera algo que inició más allá de estos 2 meses, también como se siente de frío el cambio de cómo me hablabas antes y cómo me respondes ahora y haciendo memoria, el visto que me dejaste del mensaje que te dejé cuando pasó 1 mes, todo esto ha dolido bastante....</p>
+
+          <p>Quiero contarte algo, además, algo que me guardé porque en su momento no soporté verte tan triste, tanto asi que decidí mentirte. Te mentí cuando hablamos de nuestra separación, esto nunca fue por los dos, creo que en el fondo lo sabes. Yo pude haber seguido hasta encontrar una solución a todo, porque para mí no había un lado negativo, porque el separarnos no iba a cambiar nada, eso no iba a mejorar las cosas, tampoco me lo iba a hacer más fácil, sigo lidiando con muchas cosas aún y han sido las mismas de siempre. Así que sí, aunque es duro decírtelo, esto fue por ti y no puedo seguir mintiéndome a mí mismo, a ti, ni seguir maquillando la historia cada que me preguntan por qué terminamos si nos queríamos tanto, nunca quise responder con la verdad, pero la verdad es que fue tu insatisfacción lo que lideró en tu respuesta. En cuanto empezaste a escuchar los comentarios de tus familiares quejándose de los esposos/novios de tus primas que no hacen nada o aportan poco, te asustaste porque yo parecía uno de ellos y eso esta bien, somos humanos y sentimos temor por nuestro futuro. Sé que la incertidumbre de alguien que está en 0 te hizo dar un paso atrás y replantearte con quién estabas en ese momento y bueno, estás en tu derecho de elegir con quién quieres pasar tu vida, no te voy a juzgar, naturalmente, es lo más inteligente... pero no lo hace menos doloroso. Soy consciente de que no te satisfice en aspectos importantes como el sexo o el dinero y con dinero me refiero a todo lo que se puede hacer con él, estabilidad económica, regalos, salidas, ayudarte en tu hogar, etc.</p>
+
+          <p>Todo esto te lo digo NO desde el odio o el rencor, porque no siento nada de eso hacia ti, al contrario, te amo tanto flaca, tu no tienes ni idea de cuanto, esto lo hago desde el amor propio, mi salud mental, emocional y el profundo cariño que te tengo. Te amo mucho aún, más de lo que debería, me cuesta incluso borrar sumone o sacar las fotos de mi galería, y algo me dice que eso ya lo hiciste y eso duele aún más...</p>
+
+          <p>Por todo esto, necesito desintoxicarme de ti, porque te echo mucho de menos, porque estoy muy pendiente a ti, a tus redes, a cómo estás, pensándote, en qué hiciste... y esas cosas ya no me corresponden. Por todo esto decidí, no bloquearte, pero sí necesito una desconexión total de todo lo que tenga que ver contigo, olvidarte porque recordarte me impide avanzar, me obligaré a simplemente alejarte de mi ambiente. Mi número seguirá siendo el mismo por si alguna vez estás en una emergencia, aunque sé que no lo vas a necesitar.</p>
+
+          <p>Se me arruga el corazón y a la vez es muy liberador dejar esto salir, era algo que me tenía atado… No creo tener nada más que decir al respecto, quizá se me escape algo pero lo principal ya te lo dije. Solo quiero agradecerte el tiempo que compartimos juntos, a tu mamá porque fue estupenda conmigo, quedé en deuda con ustedes por todo lo que me ofrecieron. No tienes ninguna deuda conmigo, las cosas que hice las hice desde el corazón, además con todo lo que Moni me dio eso está saldado, hasta le quedo debiendo. Dudo mucho que nos volvamos a cruzar, pero si llega a pasar, ojalá sea en un contexto distinto de nuestras vidas y así nos podamos contar todo cuando nos veamos de nuevo.</p>
+
+          <p>Te deseo lo mejor para ti y tu mamá, espero que halles un amor tan bonito como el que te entregué y que esta vez cumpla con todas tus expectativas, un muy buen trabajo que te permita conseguir las cosas que deseas y una vida feliz, espero que me recuerdes como el hombre que te amó como ningun otro, yo asi te recordare, eres lo mas bonito que me ha pasado en la vida.</p>
+        </div>
+
+        <div class="letter-sign">
+          Cuídate, princesa.<br>
+          Con mucho amor, tu flaco. ✦<br>
+          <em style="font-size:0.92rem;">Habith</em>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== SECCIÓN FOTOS — 30% ===== -->
+    <section class="photos-section">
+
+      <div class="photos-header">momentos</div>
+
+      <div class="photos-grid">
+
+        <!--
+          ═══════════════════════════════════════════
+          INSTRUCCIONES PARA AGREGAR FOTOS
+          ═══════════════════════════════════════════
+          Reemplaza cada bloque .photo-card con tus imágenes.
+
+          OPCIÓN A — Con imagen real:
+            Elimina el div.photo-placeholder
+            y descomenta la etiqueta <img>
+            Cambia src="ruta/de/tu/foto.jpg"
+
+          OPCIÓN B — Sin imagen todavía:
+            Deja el div.photo-placeholder tal cual,
+            se mostrará un recuadro con un ícono.
+
+          Puedes cambiar el texto de .photo-caption
+          por la descripción que quieras.
+
+          Agrega o elimina bloques .photo-card
+          según cuántas fotos tengas.
+          ═══════════════════════════════════════════
+        -->
+
+        <!-- FOTO 1 -->
+        <div class="photo-card">
+          <img src="imagenes/parque2.jpeg" alt="descripción">
+         
+          <div class="photo-caption">Te amo</div>
+        </div>
+
+        <!-- FOTO 2 -->
+        <div class="photo-card">
+          <img src="imagenes despedida/paseo3.jpeg" alt="descripción"> 
+          <div class="photo-caption">Te llevas una parte de mi</div>
+          </div>
+          
+        </div>
+
+        <!-- FOTO 3 -->
+        <div class="photo-card">
+           <img src="imagenes despedida/estrellas.jpeg" alt="descripción"> 
+            <div class="photo-caption">Siempre estaras en mi corazon</div>
+          </div>
+          
+        </div>
+
+        <!-- FOTO 4 -->
+        <div class="photo-card">
+           <img src="imagenes despedida/chispas.jpeg" alt="descripción"> 
+          
+          <div class="photo-caption">En mi mente</div>
+        </div>
+
+        <!-- FOTO 5 — duplica este bloque para más fotos -->
+        <div class="photo-card">
+           <img src="imagenes despedida/noria.jpeg" alt="descripción">
+          
+          <div class="photo-caption">En mis pensamientos</div>
+        </div>
+
+        <!-- FOTO 6 — duplica este bloque para más fotos -->
+        <div class="photo-card">
+           <img src="imagenes despedida/parque_noche.jpeg" alt="descripción">
+          
+          <div class="photo-caption">En mis plegarias</div>
+        </div>
+
+        <!-- FOTO 7 — duplica este bloque para más fotos -->
+        <div class="photo-card">
+           <img src="imagenes despedida/acostados.jpeg" alt="descripción">
+          
+          <div class="photo-caption">En mis sueños</div>
+        </div>
+
+        <!-- FOTO 8 — duplica este bloque para más fotos -->
+        <div class="photo-card">
+           <img src="imagenes despedida/terra1.jpeg" alt="descripción">
+          
+          <div class="photo-caption">En cada respiro</div>
+        </div>
+
+        <!-- FOTO 9 — duplica este bloque para más fotos -->
+        <div class="photo-card">
+           <img src="imagenes despedida/estrellas3.jpeg" alt="descripción">
+          
+          <div class="photo-caption">En mi alma</div>
+        </div>
+
+        <!-- FOTO 10 — duplica este bloque para más fotos -->
+        <div class="photo-card">
+           <img src="imagenes despedida/estrellas4.jpeg" alt="descripción">
+          
+          <div class="photo-caption">En mis recuerdos</div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
